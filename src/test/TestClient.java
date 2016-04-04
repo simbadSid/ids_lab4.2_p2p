@@ -1,10 +1,8 @@
 package test;
 
-import java.io.File;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.Scanner;
-
 import p2p.EntryThread;
 import p2p.Node;
 import communication.CommunicationChanel;
@@ -78,11 +76,12 @@ nodeIP = "localhost";
 			System.out.println("\n\nPlease enter");
 			System.out.println("\t- \"" + Node.MSG_TYPE_ADD_NEXT+ "\"");
 			System.out.println("\t- \"" + Node.MSG_TYPE_SIMPLE_MSG + "\"");
-/*			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_GET_NEXT + "\"");
-			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_GET_PREVIOUS + "\"");
-			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_JOIN + "\"");
-			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_INSERT + "\"");
-			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_IS_RESPONSIBLE_FOR_KEY + "\"");
+			System.out.println("\t- \"" + Node.MSG_TYPE_GET_NEXT + "\"");
+			System.out.println("\t- \"" + Node.MSG_TYPE_GET_PREVIOUS + "\"");
+			System.out.println("\t- \"" + Node.MSG_TYPE_IS_RESPONSIBLE_FOR_KEY + "\"");
+			System.out.println("\t- \"" + Node.MSG_TYPE_SET_CHORD_NEXT + "\"");
+			System.out.println("\t- \"" + Node.MSG_TYPE_INSERT + "\"");
+/*			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_JOIN + "\"");
 			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_GET_VALUE + "\"");
 			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_HALT + "\"");
 */
@@ -102,6 +101,7 @@ nodeIP = "localhost";
 			if (method.equals("setLocalNode"))
 			{
 				nodeId = parseNodeId(sc, "use");
+				chanel = null;
 				continue;
 			}
 			Method m = null;
@@ -142,10 +142,11 @@ nodeIP = "localhost";
 		for (int i=0; i<topology.nbrNode(); i++)
 		{
 			Node node = topology.getNode(i);
-			System.out.println("\t- Node         : " + i);
-			System.out.println("\t- Previous node: " + node.getPrevious());
-			System.out.println("\t- Next node    : " + node.getNext());
-			System.out.println("\t- Data         : ");
+			System.out.println("\t- Node             : " + i);
+			System.out.println("\t- Previous node    : " + node.getPrevious());
+			System.out.println("\t- Next node        : " + node.getNext());
+			System.out.println("\t- Next node(chord) : " + node.getChordNext());
+			System.out.println("\t- Data             : ");
 			LinkedList<String> keySet = node.getKeySet();
 			if (keySet != null)
 			{
@@ -166,9 +167,9 @@ nodeIP = "localhost";
 		int		nextNodeId = parseNodeId(sc, "reach next");
 		String	nextNodeIP = parseNodeIP(sc, "reach next", nodeIP);
 
-		Object[] arguments = new Object[2];
-		arguments[0] = nextNodeId;
-		arguments[1] = nextNodeIP;
+		LinkedList<Object> arguments = new LinkedList<Object>();
+		arguments.add(nextNodeId);
+		arguments.add(nextNodeIP);
 		Object res = EntryThread.sendActionRequestToNode(chanel, nodeId, Node.MSG_TYPE_ADD_NEXT, nodeId, arguments);
 		return res;
 	}
@@ -184,29 +185,80 @@ nodeIP = "localhost";
 			msg = sc.nextLine();
 		}
 
-		Object[] arguments = new Object[1];
-		arguments[0] = msg;
+		LinkedList<Object> arguments = new LinkedList<Object>();
+		arguments.add(msg);
 		Object res = EntryThread.sendActionRequestToNode(chanel, nodeId, Node.MSG_TYPE_SIMPLE_MSG, destNodeId, arguments);
 		return res;
 	}
-/*
-	public String getPrevious(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
+
+	public Object getPrevious(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
 	{
-		boolean res = chanel.writeLine(Node.THREAD_EXTERNAL_GET_PREVIOUS);
-		if (!res)
-			return null;
-		return chanel.readLine();
+		Object res = EntryThread.sendActionRequestToNode(chanel, nodeId, Node.MSG_TYPE_GET_PREVIOUS, nodeId, null);
+		return res;
 	}
 
-	public String getNext(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
+	public Object getNext(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
 	{
-		boolean res = chanel.writeLine(Node.THREAD_EXTERNAL_GET_NEXT);
-		if (!res)
-			return null;
-		return chanel.readLine();
+		Object res = EntryThread.sendActionRequestToNode(chanel, nodeId, Node.MSG_TYPE_GET_NEXT, nodeId, null);
+		return res;
 	}
-*/
-	public String join(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
+
+	public Object isResponsibleForKey(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
+	{
+		String key;
+
+		if (keyTrash != null)
+			key = keyTrash;
+
+		else
+		{
+			key = "";
+
+			System.out.print("\t\tPlease write the key: ");
+			while(key.length() == 0)
+			{
+				key = sc.nextLine();
+			}
+		}
+		LinkedList<Object> arguments = new LinkedList<Object>();
+		arguments.add(key);
+		Object res = EntryThread.sendActionRequestToNode(chanel, nodeId, Node.MSG_TYPE_IS_RESPONSIBLE_FOR_KEY, nodeId, arguments);
+		return res;
+	}
+
+	public Object setChordNext(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
+	{
+		int	nextChord = parseNodeId(sc, "reach next (chord)");
+		LinkedList<Object> arguments = new LinkedList<Object>();
+		arguments.add(nextChord);
+		Object res = EntryThread.sendActionRequestToNode(chanel, nodeId, Node.MSG_TYPE_SET_CHORD_NEXT, nodeId, arguments);
+		return res;
+	}
+
+	public Object insert(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
+	{
+		String key	= "";
+		String value= "";
+
+		System.out.print("\t\tPlease write the key: ");
+		while(key.length() == 0)
+		{
+			key = sc.nextLine();
+		}
+		System.out.print("\t\tPlease write the value: ");
+		while(value.length() == 0)
+		{
+			value = sc.nextLine();
+		}
+
+		LinkedList<Object> arguments = new LinkedList<Object>();
+		arguments.add(key);
+		arguments.add(value);
+		Object res = EntryThread.sendActionRequestToNode(chanel, nodeId, Node.MSG_TYPE_INSERT, nodeId, arguments);
+		return res;
+	}
+
+	public Object join(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
 	{
 // TODO
 		return null;
@@ -235,55 +287,6 @@ nodeIP = "localhost";
 */
 	}
 /*
-	public String insert(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
-	{
-		String key	= "";
-		String value= "";
-
-		System.out.print("\t\tPlease write the key: ");
-		while(key.length() == 0)
-		{
-			key = sc.nextLine();
-		}
-		System.out.print("\t\tPlease write the value: ");
-		while(value.length() == 0)
-		{
-			value = sc.nextLine();
-		}
-
-		boolean res = true;
-		res &= chanel.writeLine(Node.THREAD_EXTERNAL_INSERT);
-		res &= chanel.writeLine(key);
-		res &= chanel.writeLine(value);
-		if (!res)
-			return null;
-		return chanel.readLine();
-	}
-
-	public String isResponsibleForKey(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
-	{
-		String key;
-
-		if (keyTrash != null)
-			key = keyTrash;
-
-		else
-		{
-			key = "";
-
-			System.out.print("\t\tPlease write the key: ");
-			while(key.length() == 0)
-			{
-				key = sc.nextLine();
-			}
-		}
-		boolean res = true;
-		res &= chanel.writeLine(Node.THREAD_EXTERNAL_IS_RESPONSIBLE_FOR_KEY);
-		res &= chanel.writeLine(key);
-		if (!res)
-			return null;
-		return chanel.readLine();
-	}
 
 	public String getValue(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
 	{
@@ -327,7 +330,7 @@ nodeIP = "localhost";
 		return null;
 	}
 
-	public boolean halt(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
+	public boolean halt(CommunicationChanel channel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
 	{
 		sc.close();
 		System.exit(0);
@@ -349,8 +352,8 @@ nodeIP = "localhost";
 		{
 			nodeId = parseNodeId(sc, "call");
 		}
-
-		CommunicationChanel res = EntryThread.connectToNode(false, communicationChanelType, nodeId, nodeId, nodeIP);
+//TODO replace the true by false
+		CommunicationChanel res = EntryThread.connectToNode(true, communicationChanelType, nodeId, nodeId, nodeIP);
 		if (res == null)
 		{
 			System.out.println("\t **** Can't establish connection with node " + nodeId + " at the IP " + nodeIP + "****");
@@ -400,6 +403,5 @@ nodeIP = "localhost";
 				System.exit(0);
 			}
 		}
-
 	}
 }

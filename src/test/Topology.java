@@ -27,7 +27,8 @@ public class Topology
 	public Topology(String neighborhoodFile, String communicationChanelType)
 	{
 		LinkedList<Integer>[] neighborhood = parseTopologyFile(neighborhoodFile);
-		int nbrNode = neighborhood.length;
+		LinkedList<CommunicationChanel> chanelList = new LinkedList<CommunicationChanel>();
+		int nbrNode = neighborhood.length/2;
 		this.topology = new Node[nbrNode];
 
 		for (int i=0; i<nbrNode; i++)									// Create the nodes
@@ -38,17 +39,32 @@ public class Topology
 		for (int i=0; i<nbrNode; i++)									// Create the nodes
 		{
 			CommunicationChanel chanel = EntryThread.connectToNode(false, communicationChanelType, i, i, "localHost");
+			chanelList.addLast(chanel);
 			if (chanel == null)
 				throw new RuntimeException("Failed to communicate with node " + i);
 			for (int nextId: neighborhood[i])
 			{
-				Object[] arguments = new Object[2];
-				arguments[0] = nextId;
-				arguments[1] = "localhost";
+				LinkedList<Object> arguments = new LinkedList<Object>();
+				arguments.add(nextId);
+				arguments.add("localhost");
 				Object res = EntryThread.sendActionRequestToNode(chanel, i, Node.MSG_TYPE_ADD_NEXT, i, arguments);
 				if ((res == null) || ((boolean)res == false))
 					throw new RuntimeException("Failed to link the node " + i + " to the node " + nextId);
 			}
+		}
+
+		for (int i=0; i<nbrNode; i++)									// Create chord next
+		{
+			CommunicationChanel chanel = chanelList.get(i);
+			if (chanel == null)
+				throw new RuntimeException("Failed to communicate with node " + i);
+			int nextChord = neighborhood[nbrNode + i].getFirst();
+			if (nextChord < 0) continue;
+			LinkedList<Object> arguments = new LinkedList<Object>();
+			arguments.add(nextChord);
+			Object res = EntryThread.sendActionRequestToNode(chanel, i, Node.MSG_TYPE_SET_CHORD_NEXT, i, arguments);
+			if ((res == null) || ((boolean)res == false))
+				throw new RuntimeException("Failed to link (chord) the node " + i + " to the node " + nextChord);
 		}
 	}
 
@@ -77,9 +93,9 @@ public class Topology
 			sc = new Scanner(new File(fileName));
 			int nbrNode = sc.nextInt();
 			@SuppressWarnings("unchecked")
-			LinkedList<Integer>[] res = new LinkedList[nbrNode];
+			LinkedList<Integer>[] res = new LinkedList[2*nbrNode];
 
-			for (int y=0; y<nbrNode; y++)
+			for (int y=0; y<nbrNode; y++)							// Overlay
 			{
 				res[y] = new LinkedList<Integer>();
 				for (int x=0; x<nbrNode; x++)
@@ -88,6 +104,13 @@ public class Topology
 					if(n == 0) continue;
 					res[y].addLast(x);
 				}
+			}
+
+			for (int y=nbrNode; y<2*nbrNode; y++)					// Chord
+			{
+				int nextChord = sc.nextInt();
+				res[y] = new LinkedList<Integer>();
+				res[y].add(nextChord);
 			}
 			sc.close();
 			return res;
@@ -98,6 +121,7 @@ public class Topology
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			throw new RuntimeException("Corrupted neighborhood file");
 		}
 	}

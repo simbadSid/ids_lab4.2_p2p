@@ -2,7 +2,6 @@ package p2p;
 
 import general.Serialization_string;
 import general.SynchronizedList;
-import java.io.Serializable;
 import java.util.Calendar;
 import java.util.LinkedList;
 
@@ -112,28 +111,18 @@ private class Executer implements Runnable
 	@Override
 	public void run()
 	{
-		String msgType;
+		String reauestStr;
 
-		while((msgType = chanel.readLine()) != null)
+		while((reauestStr = chanel.readLine()) != null)
 		{
-//System.out.println("++++++remote = " + remoteNodeId);
-//System.out.println("++++++msgType = " + msgType);
-			int		destId	= chanel.readInt();
-//System.out.println("++++++destId = " + destId);
-			String	msgId	= chanel.readLine();
-			int		nbrHope	= chanel.readInt();
-			int		nbrArg	= chanel.readInt();
-			LinkedList<String> argTab	= new LinkedList<String>();
-			for (int i=0; i<nbrArg; i++)
-				argTab.addLast(chanel.readLine());
-
+			RequestPacket request = (RequestPacket) Serialization_string.getObjectFromSerializedString(reauestStr);
 			String res = null;
 			
 			try
 			{
 				synchronized(lock)
 				{
-					res = node.retransmitMsg(msgType, destId, msgId, nbrHope, argTab);
+					res = node.retransmitMsg(request);
 				}
 			}
 			catch(Exception e)
@@ -199,34 +188,19 @@ private class Executer implements Runnable
 	 * @param arguments: list of the arguments of the request
 	 * @return
 	 */
-	public static Object sendActionRequestToNode(CommunicationChanel chanel, int inputNodeId, String msgType, int destNodeId, Object[] arguments)
+	public static Object sendActionRequestToNode(CommunicationChanel chanel, int inputNodeId, String msgType, int destNodeId, LinkedList<Object> arguments)
 	{
 		String	msgId = "" + inputNodeId + Calendar.getInstance().getTime() + System.nanoTime();
+		RequestPacket request = new RequestPacket(msgType, destNodeId, msgId, Node.maxNbrMsgHopes, arguments);
+		String requestStr = Serialization_string.getSerializedStringFromObject(request);
 
-		boolean test = true;
-		test &= chanel.writeLine(msgType);
-		test &= chanel.writeLine(""+destNodeId);
-		test &= chanel.writeLine(msgId);
-		test &= chanel.writeLine(""+Node.maxNbrMsgHopes);
-		if (arguments != null)
-		{
-			test &= chanel.writeLine(""+arguments.length);
-			for (Object o: arguments)
-			{
-				String argStr = Serialization_string.getSerializedStringFromObject((Serializable) o);
-				test &= chanel.writeLine(argStr);
-			}
-		}
-		else
-			test &= chanel.writeLine("0");
-
+		boolean test = chanel.writeLine(requestStr);
 		if (test == false)
 		{
 			throw new RuntimeException("Failed while sending the request to the node: " + inputNodeId + "\n");
 		}
 
 		String res = chanel.readLine();
-System.out.println("\n\n\nres = " + res);
 		return Serialization_string.getObjectFromSerializedString(res);
 	}
 

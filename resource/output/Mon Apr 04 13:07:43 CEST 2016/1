@@ -1,0 +1,23 @@
+Entry thread: starts waiting
+Entry thread: successful login to 0
+
+
+- "setPrevious
+"	->"0Mon Apr 04 13:07:44 CEST 20168029564514528"
+"	->"0"
+
+	-> true"
+
+
+Entry thread: successful login to -2
+
+
+- "addNext
+"	->"1Mon Apr 04 13:07:44 CEST 20168029667357030"
+"	->"4"
+"	->"localhost"
+
+	next added = 4
+	-> true"
+
+

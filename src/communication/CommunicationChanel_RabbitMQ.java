@@ -59,6 +59,7 @@ public class CommunicationChanel_RabbitMQ extends CommunicationChanel
 				{
 					String message = new String(body, "UTF-8");
 					synchronizedReceivedMsg.addLast(message);
+//System.out.println("\n---res = " + message);
 		        }
 		    };
 		    this.readerChannel.basicConsume(readerName, true, consumer);
@@ -73,9 +74,9 @@ public class CommunicationChanel_RabbitMQ extends CommunicationChanel
 	{
 		if (this.readerChannel == null)
 			throw new RuntimeException("Channel has not been initialized for reading");
-
+//System.out.println("\n---Begin wait: on " + this.readerName);
 		String res = this.synchronizedReceivedMsg.getAndRemoveFirst();
-System.out.println("---- Read line \"" + res + "\" on chanel " + this.readerName);
+//System.out.println("\n---End wait: on " + this.readerName);
 		return res;
 	}
 
@@ -89,7 +90,6 @@ System.out.println("---- Read line \"" + res + "\" on chanel " + this.readerName
 		}
 		catch(Exception e)
 		{
-System.out.println("**** ReadChanelName = " + this.readerName);
 			if (printError) e.printStackTrace();
 			return null;
 		}
@@ -120,7 +120,7 @@ System.out.println("**** ReadChanelName = " + this.readerName);
 		try
 		{
 		    this.writerChannel.basicPublish("", this.writerName, null, toWrite.getBytes());
-System.out.println("---- Write line \"" + toWrite + "\" on chanel " + this.writerName);
+//System.out.println("\n+++Write: " + toWrite + "  on " + this.writerName);
 		    return true;
 		}
 		catch(Exception e)

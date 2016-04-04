@@ -1,0 +1,21 @@
+Entry thread: starts waiting
+Entry thread: successful login to -3
+
+
+Entry thread: successful login to 2
+
+
+- "getPrevious
+"	->"2Mon Apr 04 16:23:14 CEST 201618448097637906"
+"	->"(no arguments)"
+
+	-> -1"
+
+
+- "getNext
+"	->"2Mon Apr 04 16:23:19 CEST 201618452553918050"
+"	->"(no arguments)"
+
+	-> []"
+
+

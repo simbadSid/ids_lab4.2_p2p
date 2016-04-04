@@ -14,12 +14,18 @@ public class SynchronizedList<T>
 	private Object			lock;
 	private LinkedList<T>	list;
 
+// ------------------------------------
+// Builder
+// ------------------------------------
 	public SynchronizedList()
 	{
 		this.lock	= new Object();
 		this.list	= new LinkedList<T>();
 	}
 
+// ------------------------------------
+// Local method
+// ------------------------------------
 	public void addLast(T elem)
 	{
 		synchronized (this.lock)
@@ -35,6 +41,8 @@ public class SynchronizedList<T>
 	 */
 	public T getAndRemoveFirst()
 	{
+		T res = null;
+
 		synchronized (this.lock)
 		{
 			while(this.list.isEmpty())
@@ -49,14 +57,16 @@ public class SynchronizedList<T>
 					System.exit(0);
 				}
 			}
-			T res = this.list.getFirst();
+			res = this.list.getFirst();
 			this.list.removeFirst();
-			return res;
+			this.lock.notifyAll();
 		}
+		return res;
 	}
 
 	public boolean remove(T elem)
 	{
+		boolean res = false;
 		synchronized (this.lock)
 		{
 			for (int i=0; i<this.list.size(); i++)
@@ -67,11 +77,13 @@ public class SynchronizedList<T>
 					(elem.equals(knownElem)))
 				{
 					this.list.remove(i);
-					return true;
+					res =  true;
+					break;
 				}
 			}
+			this.lock.notifyAll();
 		}
-		return false;
+		return res;
 	}
 
 	public boolean contains(T elem)
@@ -88,6 +100,7 @@ public class SynchronizedList<T>
 					return true;
 				}
 			}
+			this.lock.notifyAll();
 		}
 		return false;
 	}
