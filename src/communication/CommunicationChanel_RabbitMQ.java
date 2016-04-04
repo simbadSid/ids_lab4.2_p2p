@@ -24,6 +24,7 @@ public class CommunicationChanel_RabbitMQ extends CommunicationChanel
 	private Channel					writerChannel;
 	private Channel					readerChannel;
 	private String					writerName;
+	private String					readerName;
 	private SynchronizedList<String>synchronizedReceivedMsg;
 	private boolean					printError	= true;
 
@@ -47,8 +48,9 @@ public class CommunicationChanel_RabbitMQ extends CommunicationChanel
 		}
 		if (read)
 		{
+			this.readerName				= new String(readerName);
 			this.readerChannel			= connection.createChannel();
-			this.readerChannel.queueDeclare(readerName, false, false, false, null);
+			this.readerChannel.queueDeclare(this.readerName, false, false, false, null);
 			this.synchronizedReceivedMsg= new SynchronizedList<String>();
 			Consumer consumer = new DefaultConsumer(this.readerChannel)
 			{
@@ -72,7 +74,9 @@ public class CommunicationChanel_RabbitMQ extends CommunicationChanel
 		if (this.readerChannel == null)
 			throw new RuntimeException("Channel has not been initialized for reading");
 
-		return this.synchronizedReceivedMsg.getAndRemoveFirst();
+		String res = this.synchronizedReceivedMsg.getAndRemoveFirst();
+System.out.println("---- Read line \"" + res + "\" on chanel " + this.readerName);
+		return res;
 	}
 
 	@Override
@@ -85,6 +89,7 @@ public class CommunicationChanel_RabbitMQ extends CommunicationChanel
 		}
 		catch(Exception e)
 		{
+System.out.println("**** ReadChanelName = " + this.readerName);
 			if (printError) e.printStackTrace();
 			return null;
 		}
@@ -110,11 +115,12 @@ public class CommunicationChanel_RabbitMQ extends CommunicationChanel
 	{
 		if (this.writerChannel == null)
 			throw new RuntimeException("Channel has not been initialized for reading");
+		String toWrite = (msg == null) ? "null" : new String(msg);
 
 		try
 		{
-			if (msg == null) msg = "null";
-		    this.writerChannel.basicPublish("", this.writerName, null, msg.getBytes());
+		    this.writerChannel.basicPublish("", this.writerName, null, toWrite.getBytes());
+System.out.println("---- Write line \"" + toWrite + "\" on chanel " + this.writerName);
 		    return true;
 		}
 		catch(Exception e)

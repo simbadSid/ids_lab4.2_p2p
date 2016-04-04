@@ -22,6 +22,9 @@ public class Serialization_string
 	 */
 	public static Object getObjectFromSerializedString(String serializedString)
 	{
+		if ((serializedString == null) || (serializedString.equals("null")))
+			return null;
+
 		byte[] bytes = Base64Decoder.decodeToBytes(serializedString);
 		Object object = null;
 
@@ -43,6 +46,8 @@ public class Serialization_string
      */
 	public static String getSerializedStringFromObject(Serializable serializableObject )
 	{
+		if (serializableObject == null)
+			return "null";
 		String encoded = null;
 
 		try

@@ -116,10 +116,10 @@ private class Executer implements Runnable
 
 		while((msgType = chanel.readLine()) != null)
 		{
-System.out.println("++++++remote = " + remoteNodeId);
-System.out.println("++++++msgType = " + msgType);
+//System.out.println("++++++remote = " + remoteNodeId);
+//System.out.println("++++++msgType = " + msgType);
 			int		destId	= chanel.readInt();
-System.out.println("++++++destId = " + destId);
+//System.out.println("++++++destId = " + destId);
 			String	msgId	= chanel.readLine();
 			int		nbrHope	= chanel.readInt();
 			int		nbrArg	= chanel.readInt();
@@ -206,8 +206,6 @@ System.out.println("++++++destId = " + destId);
 		boolean test = true;
 		test &= chanel.writeLine(msgType);
 		test &= chanel.writeLine(""+destNodeId);
-System.out.println("-----------------msgType = " + msgType);
-System.out.println("-----------------destNodeId = " + destNodeId);
 		test &= chanel.writeLine(msgId);
 		test &= chanel.writeLine(""+Node.maxNbrMsgHopes);
 		if (arguments != null)
@@ -228,6 +226,7 @@ System.out.println("-----------------destNodeId = " + destNodeId);
 		}
 
 		String res = chanel.readLine();
+System.out.println("\n\n\nres = " + res);
 		return Serialization_string.getObjectFromSerializedString(res);
 	}
 
