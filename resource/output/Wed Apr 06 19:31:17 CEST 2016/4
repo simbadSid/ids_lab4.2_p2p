@@ -1,0 +1,39 @@
+Entry thread: starts waiting
+Entry thread: successful login to 1
+
+
+- "setPrevious
+"	->"1Wed Apr 06 19:31:18 CEST 201617422821603157"
+"	->"1"
+
+	-> true"
+
+
+Entry thread: successful login to -5
+
+
+- "addNext
+"	->"4Wed Apr 06 19:31:18 CEST 201617423083595994"
+"	->"0"
+"	->"localhost"
+
+	next added = 0
+	-> true"
+
+
+- "chord_setPrevious
+"	->"1Wed Apr 06 19:31:19 CEST 201617423259434374"
+"	->"1"
+
+	-> true"
+
+
+- "chord_setNext
+"	->"4Wed Apr 06 19:31:19 CEST 201617423271864871"
+"	->"0"
+
+- Transmit message "chord_setPrevious" to "0"
+	-> true"
+
+
+- **** Failed to retransmit message "simpleMsg" to "3" ****

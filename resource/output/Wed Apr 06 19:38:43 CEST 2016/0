@@ -1,0 +1,40 @@
+Entry thread: starts waiting
+Entry thread: successful login to -1
+
+
+- "addNext
+"	->"0Wed Apr 06 19:38:44 CEST 201617868625299202"
+"	->"0"
+"	->"localhost"
+
+Entry thread: successful login to 0
+
+
+- "setPrevious
+"	->"0Wed Apr 06 19:38:44 CEST 201617868751870503"
+"	->"0"
+
+	-> true"
+
+
+	next added = 0
+	-> true"
+
+
+- "addNext
+"	->"0Wed Apr 06 19:38:44 CEST 201617868764820986"
+"	->"1"
+"	->"localhost"
+
+	next added = 1
+	-> true"
+
+
+- "simpleMsg
+"	->"0Wed Apr 06 19:39:08 CEST 201617893117009558"
+"	->";sdlfkads"
+
+	";sdlfkads"
+	-> true"
+
+

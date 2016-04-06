@@ -1,0 +1,70 @@
+Entry thread: starts waiting
+Entry thread: successful login to -1
+
+
+- "addNext
+"	->"0Wed Apr 06 19:43:41 CEST 201618165842084906"
+"	->"1"
+"	->"localhost"
+
+	next added = 1
+	-> true"
+
+
+- "addNext
+"	->"0Wed Apr 06 19:43:41 CEST 201618165988901037"
+"	->"2"
+"	->"localhost"
+
+	next added = 2
+	-> true"
+
+
+Entry thread: successful login to 2
+
+
+- "setPrevious
+"	->"2Wed Apr 06 19:43:42 CEST 201618166388935227"
+"	->"2"
+
+	-> true"
+
+
+Entry thread: successful login to 4
+
+
+- "setPrevious
+"	->"4Wed Apr 06 19:43:42 CEST 201618166582381772"
+"	->"4"
+
+	-> true"
+
+
+- "chord_setNext
+"	->"0Wed Apr 06 19:43:42 CEST 201618166661076324"
+"	->"1"
+
+- Transmit message "chord_setPrevious" to "1"
+	-> true"
+
+
+- "chord_setPrevious
+"	->"4Wed Apr 06 19:43:42 CEST 201618166713356297"
+"	->"4"
+
+	-> true"
+
+
+Entry thread: successful login to 0
+
+
+- Transmit message "simpleMsg" to "1"
+- Transmit message "simpleMsg" to "2"
+- "simpleMsg
+"	->"0Wed Apr 06 19:44:09 CEST 201618193465289412"
+"	->";lsadkfjasd;lkf"
+
+	";lsadkfjasd;lkf"
+	-> true"
+
+

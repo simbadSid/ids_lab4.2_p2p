@@ -33,7 +33,7 @@ public class EntryThread implements Runnable
 	private int							nodePort;
 	private Logger						logger;
 	private String						communicationChanelType;
-	private Object						lock = new Object();
+//TODO	private Object						lock = new Object();
 	private SynchronizedList<Integer>	connectedNodes;
 
 // -----------------------------------
@@ -87,7 +87,7 @@ public class EntryThread implements Runnable
 				continue;
 			connectedNodes.addLast(callerNodeId);
 			logger.write("Entry thread: successful login to " + callerNodeId + "\n\n\n");
-			Thread t = new Thread(new Executer(executerChanel, callerNodeId));
+			Thread t = new Thread(new ExecuterHead(executerChanel, callerNodeId));
 			t.start();
 		}
 	}
@@ -95,14 +95,14 @@ public class EntryThread implements Runnable
 // -----------------------------------
 // Executer Thread
 // -----------------------------------
-private class Executer implements Runnable
+private class ExecuterHead implements Runnable
 {
 	// Attributes
 	CommunicationChanel chanel;
 	int					remoteNodeId;
 
 	// Builder
-	public Executer (CommunicationChanel chanel, int remoteNodeId)
+	public ExecuterHead (CommunicationChanel chanel, int remoteNodeId)
 	{
 		this.chanel			= chanel;
 		this.remoteNodeId	= remoteNodeId;
@@ -115,23 +115,9 @@ private class Executer implements Runnable
 
 		while((reauestStr = chanel.readLine()) != null)
 		{
-			RequestPacket request = (RequestPacket) Serialization_string.getObjectFromSerializedString(reauestStr);
-			String res = null;
-			
-			try
-			{
-				synchronized(lock)
-				{
-					res = node.retransmitMsg(request);
-				}
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-//				System.exit(0);
-			}
-
-			chanel.writeLine(res);
+			RequestPacket	request 	= (RequestPacket) Serialization_string.getObjectFromSerializedString(reauestStr);
+			Executer		executer	= new Executer(request, chanel);
+			new Thread(executer).start();
 		}
 
 		this.chanel.close();
@@ -139,6 +125,40 @@ private class Executer implements Runnable
 	}
 }
 
+private class Executer implements Runnable
+{
+	// Attributes
+	RequestPacket		request;
+	CommunicationChanel	chanel;
+
+	// Builder
+	public Executer(RequestPacket request, CommunicationChanel chanel)
+	{
+		this.request	= request;
+		this.chanel		= chanel;
+	}
+
+	// Local methods
+	@Override
+	public void run()
+	{
+		String res = null;
+		
+		try
+		{
+//TODO			synchronized(lock)
+//			{
+				res = node.retransmitMsg(request, false);
+//			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+//			System.exit(0);
+		}
+		chanel.writeLine(res);
+	}
+}
 // -----------------------------------
 // Snippet of code that can be executed by 
 // 	a foreign user (on his local machine)

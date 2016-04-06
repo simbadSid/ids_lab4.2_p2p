@@ -31,18 +31,22 @@ public class Node
 	public static final 	String	MSG_TYPE_ADD_NEXT		= "addNext";
 	public static final 	String	MSG_TYPE_GET_PREVIOUS	= "getPrevious";
 	public static final 	String	MSG_TYPE_GET_NEXT		= "getNext";
-	public static final 	String	MSG_TYPE_SET_CHORD_NEXT	=  "setChordNext";
-	public static final 	String	MSG_TYPE_IS_RESPONSIBLE_FOR_KEY = "isResponsibleForKey";
-	public static final 	String	MSG_TYPE_INSERT			= "insert";
-	public static final		String	MSG_TYPE_JOIN			= "join";
-/*	public static final 	String	MSG_TYPE_GET_VALUE		= "getValue";
+
+	public static final 	String	MSG_TYPE_CHORD_SET_NEXT	= "chord_setNext";
+	public static final 	String	MSG_TYPE_CHORD_IS_RESPONSIBLE_FOR_KEY = "chord_isResponsibleForKey";
+	public static final 	String	MSG_TYPE_CHORD_GET_RESPONSIBLE_FOR_KEY = "chord_getResponsibleForKey";
+	public static final 	String	MSG_TYPE_CHORD_INSERT	= "chord_insert";
+/*	public static final		String	MSG_TYPE_CHORD_JOIN		= "chord_join";
+	public static final 	String	MSG_TYPE_CHORD_GET_VALUE= "chord_getValue";
 */
-	// May be executed by user out of the node
-	private static final	String	MSG_TYPE_SET_PREVIOUS	= "setPrevious";
+	// May be executed by nodes only
+	private static final	String	MSG_TYPE_SET_PREVIOUS		= "setPrevious";
+	private static final 	String	MSG_TYPE_CHORD_SET_PREVIOUS	= "chord_setPrevious";
 
 	private int								nodeId;
 	private int								previousId;
-	private int								nextChord		= -1;
+	private int								nextChord;
+	private int								previousChord;
 	private LinkedList<Integer>				nextIdList;
 	private LinkedList<CommunicationChanel>	nextChanelList;
 	private NodeInternalHashTable			internalHashTable;
@@ -58,6 +62,8 @@ public class Node
 	{
 		this.nodeId						= nodeId; //TODO NodeInternalHashTable.hash(""+nodeId);
 		this.previousId					= -1;
+		this.nextChord					= -1;
+		this.previousChord				= -1;
 		this.nextIdList					= new LinkedList<Integer>();
 		this.nextChanelList				= new LinkedList<CommunicationChanel>();
 		this.logger						= new Logger(""+nodeId);
@@ -111,10 +117,20 @@ public class Node
 // ---------------------------------
 // Ring overlay management
 // ---------------------------------
-	public String retransmitMsg(RequestPacket request)
+	public String retransmitMsg(RequestPacket request, boolean allowDoubles)
 	{
+System.out.println("retransmit");
+System.out.println("Local= " + this.nodeId);
+System.out.println("Dest = " + request.destNodeId);
 		LinkedList<Integer> optimizedNextList;
 		request.nbrHope --;
+
+		if ((this.receivedMsgIdList.contains(request.msgId)) && (!allowDoubles))
+		{
+			this.logger.write(" already received\n");
+			return null;
+		}
+		this.receivedMsgIdList.addLast(request.msgId);
 
 		if (request.destNodeId == this.nodeId)
 			return this.processMsg(request.msgId, request.msgType, request.arguments);
@@ -127,15 +143,18 @@ public class Node
 
 		optimizedNextList = rootingTable.getSortedRootToDestination(request.destNodeId, nextIdList);// List of the successor nodes sorted using
 																							//		the proba that they may reach the destination
-		for (int nextId: optimizedNextList)
+		for (int nextIndex: optimizedNextList)
 		{
-			int nextIndex = getIndexOfNext(nextId, true);
-			CommunicationChanel chanel = this.nextChanelList.get(nextIndex);
-			String requestStr = Serialization_string.getSerializedStringFromObject(request);
+			CommunicationChanel chanel		= this.nextChanelList.get(nextIndex);
+			int					nextId		= this.nextIdList.get(nextIndex);
+			String				requestStr	= Serialization_string.getSerializedStringFromObject(request);
+System.out.println("\t Waiting for " + nextId);
 			boolean test = chanel.writeLine(requestStr);
 
-			String res = chanel.readLine();
-			if ((!test) || (res == null))
+			String res		= chanel.readLine();
+			Object resObj	= Serialization_string.getObjectFromSerializedString(res);
+System.out.println("\t Response from " + nextId + " : " + resObj);
+			if ((!test) || (resObj == null))
 			{
 				this.rootingTable.decreaseProba(request.destNodeId, nextId);				// Update the rooting table by decreasing the proba to reach
 				continue;																	//		 destId through nextId
@@ -158,19 +177,11 @@ public class Node
 				this.logger.write("\"\t->\"" + arg + "\"\n");
 		else
 			this.logger.write("\"\t->\"" + "(no arguments)" + "\"\n");
-			
-
-		if (this.receivedMsgIdList.contains(msgId))
-		{
-			this.logger.write(" already received\n");
-			return null;
-		}
-
 		this.logger.write("\n");
 		try
 		{
-			Method	m	= Node.class.getMethod(msgType, LinkedList.class);
-			Object	res	= m.invoke(this, argObj);
+			Method	m	= Node.class.getMethod(msgType, LinkedList.class, String.class);
+			Object	res	= m.invoke(this, argObj, msgId);
 			this.logger.write("\t-> " + res + "\"\n\n\n");
 			return Serialization_string.getSerializedStringFromObject((Serializable) res);
 		}
@@ -197,13 +208,13 @@ public class Node
 // ------------------------------------------
 // Management methods
 // ------------------------------------------
-	public boolean simpleMsg(LinkedList<Object> arguments)
+	public boolean simpleMsg(LinkedList<Object> arguments, String msgId)
 	{
 		this.logger.write("\t\"" + arguments.get(0) + "\"\n");
 		return true;
 	}
 
-	public boolean addNext(LinkedList<Object> arguments)
+	public boolean addNext(LinkedList<Object> arguments, String msgId)
 	{
 		int		nextId = -1;
 		String	nextIP = null;
@@ -212,7 +223,7 @@ public class Node
 		{
 			nextId = (int)arguments.get(0);
 			nextIP = (String) arguments.get(1);
-			if (!General.validIP(nextIP))
+			if ((nextId < 0) || (!General.validIP(nextIP)))
 				throw new ExceptionWrongRequestArgument();
 		}
 		catch(Exception e)
@@ -221,8 +232,6 @@ public class Node
 			throw new ExceptionWrongRequestArgument();
 		}
 
-		if (nextId < 0)
-			return false;
 		if (this.nextIdList.contains(nextId))
 			return true;
 
@@ -235,6 +244,7 @@ public class Node
 
 		LinkedList<Object> newArguments = new LinkedList<Object>();
 		newArguments.add(this.nodeId);
+//TODO change by a call to this.transmit
 		Boolean res = (Boolean) EntryThread.sendActionRequestToNode(chanel, nodeId, MSG_TYPE_SET_PREVIOUS, nextId, newArguments);
 		if ((res == null) || (res == false))
 		{
@@ -248,13 +258,14 @@ public class Node
 		return true;
 	}
 
-	public boolean setPrevious(LinkedList<Object> arguments)
+	public boolean setPrevious(LinkedList<Object> arguments, String msgId)
 	{
 		int previousId = -1;
 
 		try
 		{
 			previousId = (int) arguments.get(0);
+			if (previousId < 0) throw new ExceptionWrongRequestArgument();
 		}
 		catch(Exception e)
 		{
@@ -264,20 +275,17 @@ public class Node
 
 		if (previousId < 0)
 			return false;
-//TODO change this by un update of the existing internal hash table
-		if (previousId != this.previousId)
-			this.internalHashTable	= new NodeInternalHashTable(previousId, nodeId);
 		this.previousId = previousId;
 		return true;
 	}
 
 
-	public LinkedList<Integer> getNext(LinkedList<Object> arguments)
+	public LinkedList<Integer> getNext(LinkedList<Object> arguments, String msgId)
 	{
 		return this.getNext();
 	}
 
-	public int getPrevious(LinkedList<Object> arguments)
+	public int getPrevious(LinkedList<Object> arguments, String msgId)
 	{
 		return this.getPrevious();
 	}
@@ -285,14 +293,57 @@ public class Node
 // -----------------------------------------------
 // Chord algorithm
 // -----------------------------------------------
-	public Boolean setChordNext(LinkedList<Object> arguments)
+	public Boolean chord_setNext(LinkedList<Object> arguments, String msgId)
 	{
-		int nextChord = (int) arguments.get(0);
+		int nextChord;
+
+		try
+		{
+			nextChord = (int) arguments.get(0);
+			if (nextChord < 0) throw new ExceptionWrongRequestArgument();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			throw new ExceptionWrongRequestArgument();
+		}
+
+		String	newMsgId = "" + this.nodeId + Calendar.getInstance().getTime() + System.nanoTime();
+		LinkedList<Object> newArguments = new LinkedList<Object>();
+		newArguments.add(this.nodeId);
+		RequestPacket request = new RequestPacket(MSG_TYPE_CHORD_SET_PREVIOUS, nextChord, newMsgId, maxNbrMsgHopes, newArguments);
+		String res = this.retransmitMsg(request, false);
+		Boolean test = (Boolean) Serialization_string.getObjectFromSerializedString(res);
+		if ((test == null) || (test == false))
+			return false;
+
 		this.nextChord = nextChord;
 		return true;
 	}
 
-	public Boolean isResponsibleForKey(LinkedList<Object> arguments)
+	public Boolean chord_setPrevious(LinkedList<Object> arguments, String msgId)
+	{
+		int previousChord;
+
+		try
+		{
+			previousChord = (int) arguments.get(0);
+			if (previousChord < 0) throw new ExceptionWrongRequestArgument();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			throw new ExceptionWrongRequestArgument();
+		}
+
+		//TODO change this by an update of the existing internal hash table
+		if (previousChord != this.previousChord)
+			this.internalHashTable	= new NodeInternalHashTable(previousId, nodeId);
+
+		return true;
+	}
+
+	public Boolean chord_isResponsibleForKey(LinkedList<Object> arguments, String msgId)
 	{
 		String key = (String) arguments.get(0);
 
@@ -302,7 +353,25 @@ public class Node
 		return this.internalHashTable.isResponsibleForKey(key);
 	}
 
-	public Boolean insert(LinkedList<Object> arguments)
+	public Integer chord_getResponsibleForKey(LinkedList<Object> arguments, String msgId)
+	{
+		String key = (String) arguments.get(0);
+
+		if ((this.internalHashTable != null) && (this.internalHashTable.isResponsibleForKey(key)))
+			return this.nodeId;
+
+		if (this.nextChord < 0)
+			return null;
+
+		LinkedList<Object> newArguments = new LinkedList<Object>();
+		newArguments.add(key);
+		RequestPacket request = new RequestPacket(MSG_TYPE_CHORD_GET_RESPONSIBLE_FOR_KEY, nextChord, msgId, maxNbrMsgHopes, newArguments);
+		String res = this.retransmitMsg(request, true);
+		return (Integer) Serialization_string.getObjectFromSerializedString(res);
+	}
+
+//TODO
+	public Boolean chord_insert(LinkedList<Object> arguments, String msgId)
 	{
 		String key	= (String) arguments.get(0);
 		String value= (String) arguments.get(0);
@@ -315,28 +384,30 @@ public class Node
 				return true;
 		}
 
-		if (this.nextChord < 0)
+		LinkedList<Object> newArguments = new LinkedList<Object>();
+		newArguments.add(key);
+		RequestPacket request = new RequestPacket(MSG_TYPE_CHORD_GET_RESPONSIBLE_FOR_KEY, nextChord, msgId, maxNbrMsgHopes, newArguments);
+		String res = this.retransmitMsg(request, true);
+		return (Boolean) Serialization_string.getObjectFromSerializedString(res);
+
+		
+		if (responsible < 0)
 			return false;
 
 		String	msgId = "" + this.nodeId + Calendar.getInstance().getTime() + System.nanoTime();
-		RequestPacket request = new RequestPacket(MSG_TYPE_INSERT, nextChord, msgId, maxNbrMsgHopes, arguments);
+		RequestPacket request = new RequestPacket(MSG_TYPE_CHORD_INSERT, nextChord, msgId, maxNbrMsgHopes, arguments);
 		String res = this.retransmitMsg(request);
 		return (Boolean) Serialization_string.getObjectFromSerializedString(res);
 	}
 
-	public Boolean join(LinkedList<Object> arguments)
+//TODO
+	public Boolean chord_join(LinkedList<Object> arguments, String msgId)
 	{
 		
 	}
 
-	private int getIndexOfNext(int nextId, boolean exceptionIfNotFound)
+	public Object chord_getValue(LinkedList<Object> arguments, String msgId)
 	{
-		for (int i=0; i<nextIdList.size(); i++)
-		{
-			if (nextId == nextIdList.get(i))
-				return i;
-		}
-		if (exceptionIfNotFound) throw new RuntimeException();
-		return -1;
+		
 	}
 }

@@ -1,5 +1,7 @@
 package communication;
 
+import general.General;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -34,19 +36,31 @@ public class RootingTable
 		LinkedList<Integer> res				= new LinkedList<Integer>();
 		LinkedList<Integer> optimizedList	= new LinkedList<Integer>();
 		LinkedList<Integer> knownRootList;
+		int					destIndexInNext	= General.getIndexOfIntInList(nextIdList, destId, false);
 
-		if (nextIdList.contains(destId))					// Case: the destination is a successor
-			optimizedList.add(destId);
+		if (destIndexInNext != -1)							// Case: the destination is a successor
+			optimizedList.add(destIndexInNext);
 
 		knownRootList = this.rootingTable.get(destId);
 		if (knownRootList != null)							// Case: the destination is in the rooting table
-			optimizedList.addAll(nextIdList);
-
-		for (int nextId: nextIdList)						// Add all the other successor (with a lower probability)
 		{
-			if (optimizedList.contains(nextId))
+			for (int nextId: knownRootList)
+			{
+// TODO change the true when I will add the feature: remove node
+				int nextIndex	= General.getIndexOfIntInList(nextIdList, nextId, true);
+				int test		= General.getIndexOfIntInList(optimizedList, nextIndex, false);
+				if (test == -1)
+					optimizedList.addLast(nextIndex);
+			}
+//optimizedList.addAll(knownRootList);
+		}
+
+		for (int i=0; i<nextIdList.size(); i++)				// Add all the other successor (with a lower probability)
+		{
+			int test	= General.getIndexOfIntInList(optimizedList, i, false);
+			if (test != -1)
 					continue;
-			res.add(nextId);
+			res.add(i);
 		}
 
 		for (int nextId: optimizedList)

@@ -1,5 +1,7 @@
 package general;
 
+import java.util.LinkedList;
+
 
 
 
@@ -45,6 +47,17 @@ public class General
 		{
 			return false;
 		}
+	}
+
+	public static int getIndexOfIntInList(LinkedList<Integer> list, int toFind, boolean exceptionIfNotFound)
+	{
+		for (int i=0; i<list.size(); i++)
+		{
+			if (toFind == list.get(i))
+				return i;
+		}
+		if (exceptionIfNotFound) throw new RuntimeException();
+		return -1;
 	}
 
 }

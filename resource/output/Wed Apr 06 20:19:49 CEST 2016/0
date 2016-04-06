@@ -1,0 +1,26 @@
+Entry thread: starts waiting
+Entry thread: successful login to -1
+
+
+- "addNext
+"	->"0Wed Apr 06 20:19:50 CEST 201618915575261619"
+"	->"1"
+"	->"localhost"
+
+	next added = 1
+	-> true"
+
+
+Entry thread: successful login to 0
+
+
+- "simpleMsg
+"	->"0Wed Apr 06 20:20:21 CEST 201618946647475543"
+"	->"aslkdjfads;lkjf"
+
+	"aslkdjfads;lkjf"
+	-> true"
+
+
+- Transmit message "simpleMsg" to "1"
+- Transmit message "simpleMsg" to "3"

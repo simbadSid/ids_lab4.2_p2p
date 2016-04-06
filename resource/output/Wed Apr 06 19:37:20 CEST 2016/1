@@ -1,0 +1,31 @@
+Entry thread: starts waiting
+Entry thread: successful login to 0
+
+
+- "setPrevious
+"	->"0Wed Apr 06 19:37:21 CEST 201617785390944496"
+"	->"0"
+
+	-> true"
+
+
+Entry thread: successful login to -2
+
+
+- "addNext
+"	->"1Wed Apr 06 19:37:21 CEST 201617785503933484"
+"	->"3"
+"	->"localhost"
+
+	next added = 3
+	-> true"
+
+
+- "chord_setNext
+"	->"1Wed Apr 06 19:37:21 CEST 201617785811407503"
+"	->"0"
+
+- **** Failed to retransmit message "chord_setPrevious" to "0" ****
+	-> false"
+
+

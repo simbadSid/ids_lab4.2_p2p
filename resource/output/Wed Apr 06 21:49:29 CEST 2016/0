@@ -1,0 +1,76 @@
+Entry thread: starts waiting
+Entry thread: successful login to -1
+
+
+- "addNext
+"	->"0Wed Apr 06 21:49:30 CEST 201624295648938873"
+"	->"1"
+"	->"localhost"
+
+	next added = 1
+	-> true"
+
+
+- "addNext
+"	->"0Wed Apr 06 21:49:30 CEST 201624295804762444"
+"	->"2"
+"	->"localhost"
+
+	next added = 2
+	-> true"
+
+
+Entry thread: successful login to 4
+
+
+- "setPrevious
+"	->"4Wed Apr 06 21:49:31 CEST 201624296470858088"
+"	->"4"
+
+	-> true"
+
+
+- "chord_setNext
+"	->"0Wed Apr 06 21:49:31 CEST 201624296572262623"
+"	->"1"
+
+- Transmit message "chord_setPrevious" to "1"
+	-> true"
+
+
+- "chord_setPrevious
+"	->"4Wed Apr 06 21:49:31 CEST 201624296608665017"
+"	->"4"
+
+	-> true"
+
+
+Entry thread: successful login to 0
+
+
+- "chord_isResponsibleForKey
+"	->"0Wed Apr 06 21:50:16 CEST 201624342167529172"
+"	->"qwerty"
+
+	-> true"
+
+
+- "chord_isResponsibleForKey
+"	->"0Wed Apr 06 21:50:29 CEST 201624354423490168"
+"	->"zxxx"
+
+	-> false"
+
+
+ already received
+- **** Failed to retransmit message "chord_isResponsibleForKey" to "5" ****
+- Transmit message "chord_isResponsibleForKey" to "1"
+- Transmit message "chord_isResponsibleForKey" to "4"
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 21:52:20 CEST 201624465720894779"
+"	->"zxxx"
+
+ already received
+	-> null"
+
+

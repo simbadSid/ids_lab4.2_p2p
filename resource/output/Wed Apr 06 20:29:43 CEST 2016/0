@@ -1,0 +1,24 @@
+Entry thread: starts waiting
+Entry thread: successful login to -1
+
+
+- "addNext
+"	->"0Wed Apr 06 20:29:43 CEST 201619509072767273"
+"	->"1"
+"	->"localhost"
+
+	next added = 1
+	-> true"
+
+
+Entry thread: successful login to 0
+
+
+- "simpleMsg
+"	->"0Wed Apr 06 20:30:00 CEST 201619525619760916"
+"	->"'sadkfs"
+
+	"'sadkfs"
+	-> true"
+
+

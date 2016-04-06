@@ -1,0 +1,25 @@
+Entry thread: starts waiting
+Entry thread: successful login to 0
+
+
+- "setPrevious
+"	->"0Wed Apr 06 22:01:09 CEST 201624995049462854"
+"	->"0"
+
+	-> true"
+
+
+Entry thread: successful login to -3
+
+
+- "addNext
+"	->"2Wed Apr 06 22:01:10 CEST 201624995441101963"
+"	->"3"
+"	->"localhost"
+
+	next added = 3
+	-> true"
+
+
+- Transmit message "simpleMsg" to "3"
+- **** Failed to retransmit message "simpleMsg" to "5" ****

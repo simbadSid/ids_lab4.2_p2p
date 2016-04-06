@@ -1,0 +1,10 @@
+Entry thread: starts waiting
+Entry thread: successful login to -1
+
+
+- "addNext
+"	->"0Wed Apr 06 21:48:49 CEST 201624254523031023"
+"	->"1"
+"	->"localhost"
+
+	- **** Failed to execute: "addNext". Error: "java.lang.IllegalArgumentException: wrong number of arguments"

@@ -17,7 +17,10 @@ public class TestClient
 // -------------------------------------
 // Attributes
 // -------------------------------------
-	public static String	neighborMatrixFile		= "resource/input/neighborhoodMatrix.txt";
+//	public static String	neighborMatrixFile		= "resource/input/neighborhoodMatrix_loop.txt";
+	public static String	neighborMatrixFile		= "resource/input/neighborhoodMatrix_perso.txt";
+//	public static String	neighborMatrixFile		= "resource/input/neighborhoodMatrix_topic.txt";
+//	public static String	neighborMatrixFile		= "resource/input/neighborhoodMatrix_ring.txt";
 	public static String	communicationChanelType	= CommunicationChanel.COMMUNICATION_CHANEL_RABBITMQ;
 	public static Topology	topology;
 
@@ -58,6 +61,7 @@ nodeIP = "localhost";
 			System.out.println("\t- (-1) to set the node index dynamically");
 			try
 			{
+				System.out.print("\t choice = ");
 				nodeId = Integer.parseInt(sc.nextLine());
 				if ((nodeId < -1) || (nodeId >= topology.nbrNode()))
 					throw new Exception();
@@ -78,16 +82,19 @@ nodeIP = "localhost";
 			System.out.println("\t- \"" + Node.MSG_TYPE_SIMPLE_MSG + "\"");
 			System.out.println("\t- \"" + Node.MSG_TYPE_GET_NEXT + "\"");
 			System.out.println("\t- \"" + Node.MSG_TYPE_GET_PREVIOUS + "\"");
+			System.out.println("\t- \"" + Node.MSG_TYPE_CHORD_SET_NEXT + "\"");
+			System.out.println("\t- \"" + Node.MSG_TYPE_CHORD_IS_RESPONSIBLE_FOR_KEY + "\"");
+			System.out.println("\t- \"" + Node.MSG_TYPE_CHORD_GET_RESPONSIBLE_FOR_KEY + "\"");
+/*			System.out.println("\t- \"" + Node.MSG_TYPE_CHORD_INSERT + "\"");
 			System.out.println("\t- \"" + Node.MSG_TYPE_IS_RESPONSIBLE_FOR_KEY + "\"");
-			System.out.println("\t- \"" + Node.MSG_TYPE_SET_CHORD_NEXT + "\"");
-			System.out.println("\t- \"" + Node.MSG_TYPE_INSERT + "\"");
-/*			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_JOIN + "\"");
+			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_JOIN + "\"");
 			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_GET_VALUE + "\"");
 			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_HALT + "\"");
 */
 			System.out.println("\t- \"printOverlay\"");
 			System.out.println("\t- \"setLocalNode\"");
 
+			System.out.print("\t Choice: ");
 			String method = sc.next();
 
 			if ((chanel == null) || (chanel.isClose()))
@@ -179,7 +186,8 @@ nodeIP = "localhost";
 		String msg = "";
 		int	destNodeId = parseNodeId(sc, "reach next");
 
-		System.out.print("\t\tPlease write the msg = ");
+		System.out.println("\t Please write the msg");
+		System.out.print  ("\t Choice: ");
 		while(msg.length() == 0)
 		{
 			msg = sc.nextLine();
@@ -203,7 +211,42 @@ nodeIP = "localhost";
 		return res;
 	}
 
-	public Object isResponsibleForKey(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
+	public Object chord_setNext(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
+	{
+		int	nextChord = parseNodeId(sc, "reach next (chord)");
+		LinkedList<Object> arguments = new LinkedList<Object>();
+		arguments.add(nextChord);
+		Object res = EntryThread.sendActionRequestToNode(chanel, nodeId, Node.MSG_TYPE_CHORD_SET_NEXT, nodeId, arguments);
+		return res;
+	}
+
+	public Object chord_isResponsibleForKey(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
+	{
+		String key;
+
+		int	nodeToCheck = parseNodeId(sc, "check (chord)");
+
+		if (keyTrash != null)
+			key = keyTrash;
+
+		else
+		{
+			key = "";
+
+			System.out.println("\n\t Please write the key: ");
+			System.out.print("\t choice: ");
+			while(key.length() == 0)
+			{
+				key = sc.nextLine();
+			}
+		}
+		LinkedList<Object> arguments = new LinkedList<Object>();
+		arguments.add(key);
+		Object res = EntryThread.sendActionRequestToNode(chanel, nodeId, Node.MSG_TYPE_CHORD_IS_RESPONSIBLE_FOR_KEY, nodeToCheck, arguments);
+		return res;
+	}
+
+	public Object chord_getResponsibleForKey(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
 	{
 		String key;
 
@@ -214,7 +257,8 @@ nodeIP = "localhost";
 		{
 			key = "";
 
-			System.out.print("\t\tPlease write the key: ");
+			System.out.println("\n\t Please write the key: ");
+			System.out.print("\t choice: ");
 			while(key.length() == 0)
 			{
 				key = sc.nextLine();
@@ -222,30 +266,23 @@ nodeIP = "localhost";
 		}
 		LinkedList<Object> arguments = new LinkedList<Object>();
 		arguments.add(key);
-		Object res = EntryThread.sendActionRequestToNode(chanel, nodeId, Node.MSG_TYPE_IS_RESPONSIBLE_FOR_KEY, nodeId, arguments);
+		Object res = EntryThread.sendActionRequestToNode(chanel, nodeId, Node.MSG_TYPE_CHORD_GET_RESPONSIBLE_FOR_KEY, nodeId, arguments);
 		return res;
 	}
 
-	public Object setChordNext(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
-	{
-		int	nextChord = parseNodeId(sc, "reach next (chord)");
-		LinkedList<Object> arguments = new LinkedList<Object>();
-		arguments.add(nextChord);
-		Object res = EntryThread.sendActionRequestToNode(chanel, nodeId, Node.MSG_TYPE_SET_CHORD_NEXT, nodeId, arguments);
-		return res;
-	}
-
-	public Object insert(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
+	public Object chord_insert(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
 	{
 		String key	= "";
 		String value= "";
 
-		System.out.print("\t\tPlease write the key: ");
+		System.out.println("\n\t Please write the key: ");
+		System.out.print("\t choice: ");
 		while(key.length() == 0)
 		{
 			key = sc.nextLine();
 		}
-		System.out.print("\t\tPlease write the value: ");
+		System.out.print("\t Please write the value: ");
+		System.out.print("\t choice: ");
 		while(value.length() == 0)
 		{
 			value = sc.nextLine();
@@ -254,7 +291,7 @@ nodeIP = "localhost";
 		LinkedList<Object> arguments = new LinkedList<Object>();
 		arguments.add(key);
 		arguments.add(value);
-		Object res = EntryThread.sendActionRequestToNode(chanel, nodeId, Node.MSG_TYPE_INSERT, nodeId, arguments);
+		Object res = EntryThread.sendActionRequestToNode(chanel, nodeId, Node.MSG_TYPE_CHORD_INSERT, nodeId, arguments);
 		return res;
 	}
 
@@ -345,7 +382,8 @@ nodeIP = "localhost";
 	{
 		if (nodeIP == null)
 		{
-			System.out.println("\tPlease enter the IP address of the node to call");
+			System.out.println("\n\t Please enter the IP address of the node to call: ");
+			System.out.print("\t Choice: ");
 			nodeIP = sc.next();
 		}
 		if (nodeId < 0)
@@ -369,7 +407,8 @@ nodeIP = "localhost";
 
 		while(true)
 		{
-			System.out.println("\tPlease enter the ID of the node to " + nodeType + " ( >= 0)");
+			System.out.println("\n\t Please enter the ID of the node to " + nodeType + " ( >= 0)");
+			System.out.print("\t Choice: ");
 			try
 			{
 				nodeId = sc.nextInt();
@@ -392,7 +431,8 @@ nodeIP = "localhost";
 			return new String(nodeIP);
 		while(true)
 		{
-			System.out.println("\tPlease enter the IP of the node to " + nodeType);
+			System.out.println("\n\t Please enter the IP of the node to " + nodeType);
+			System.out.print("\t Choice: ");
 			try
 			{
 				resNodeIP = sc.next();

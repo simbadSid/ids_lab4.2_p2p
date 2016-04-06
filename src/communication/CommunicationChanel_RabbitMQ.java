@@ -76,7 +76,7 @@ public class CommunicationChanel_RabbitMQ extends CommunicationChanel
 			throw new RuntimeException("Channel has not been initialized for reading");
 //System.out.println("\n---Begin wait: on " + this.readerName);
 		String res = this.synchronizedReceivedMsg.getAndRemoveFirst();
-//System.out.println("\n---End wait: on " + this.readerName);
+//System.out.println("\n---End wait: on " + this.readerName + "  with msg: " + Serialization_string.getObjectFromSerializedString(res));
 		return res;
 	}
 
@@ -120,7 +120,7 @@ public class CommunicationChanel_RabbitMQ extends CommunicationChanel
 		try
 		{
 		    this.writerChannel.basicPublish("", this.writerName, null, toWrite.getBytes());
-//System.out.println("\n+++Write: " + toWrite + "  on " + this.writerName);
+//System.out.println("\n+++Write: " + Serialization_string.getObjectFromSerializedString(toWrite) + "  on " + this.writerName);
 		    return true;
 		}
 		catch(Exception e)

@@ -1,0 +1,46 @@
+Entry thread: starts waiting
+Entry thread: successful login to 0
+
+
+- "setPrevious
+"	->"0Wed Apr 06 22:01:09 CEST 201624994939578392"
+"	->"0"
+
+	-> true"
+
+
+Entry thread: successful login to -2
+
+
+- "addNext
+"	->"1Wed Apr 06 22:01:09 CEST 201624995130347582"
+"	->"4"
+"	->"localhost"
+
+	next added = 4
+	-> true"
+
+
+- "chord_setPrevious
+"	->"0Wed Apr 06 22:01:10 CEST 201624995815063121"
+"	->"0"
+
+	-> true"
+
+
+- "chord_setNext
+"	->"1Wed Apr 06 22:01:10 CEST 201624995828585864"
+"	->"4"
+
+- Transmit message "chord_setPrevious" to "4"
+	-> true"
+
+
+- **** Failed to retransmit message "simpleMsg" to "3" ****
+- **** Failed to retransmit message "simpleMsg" to "5" ****
+- Transmit message "chord_isResponsibleForKey" to "4"
+- "chord_setPrevious
+"	->"0Wed Apr 06 22:02:16 CEST 201625061558860420"
+"	->"zxxx"
+
+	- **** Failed to execute: "chord_setPrevious". Error: "java.lang.reflect.InvocationTargetException"

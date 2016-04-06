@@ -62,7 +62,7 @@ public class Topology
 			if (nextChord < 0) continue;
 			LinkedList<Object> arguments = new LinkedList<Object>();
 			arguments.add(nextChord);
-			Object res = EntryThread.sendActionRequestToNode(chanel, i, Node.MSG_TYPE_SET_CHORD_NEXT, i, arguments);
+			Object res = EntryThread.sendActionRequestToNode(chanel, i, Node.MSG_TYPE_CHORD_SET_NEXT, i, arguments);
 			if ((res == null) || ((boolean)res == false))
 				throw new RuntimeException("Failed to link (chord) the node " + i + " to the node " + nextChord);
 		}

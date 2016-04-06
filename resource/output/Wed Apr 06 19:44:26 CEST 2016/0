@@ -1,0 +1,40 @@
+Entry thread: starts waiting
+Entry thread: successful login to -1
+
+
+- "addNext
+"	->"0Wed Apr 06 19:44:26 CEST 201618210814186364"
+"	->"0"
+"	->"localhost"
+
+Entry thread: successful login to 0
+
+
+- "setPrevious
+"	->"0Wed Apr 06 19:44:26 CEST 201618210923791710"
+"	->"0"
+
+	-> true"
+
+
+	next added = 0
+	-> true"
+
+
+- "addNext
+"	->"0Wed Apr 06 19:44:26 CEST 201618210937823149"
+"	->"1"
+"	->"localhost"
+
+	next added = 1
+	-> true"
+
+
+- "simpleMsg
+"	->"0Wed Apr 06 19:44:40 CEST 201618224905091123"
+"	->".ljfd;aklsdf"
+
+	".ljfd;aklsdf"
+	-> true"
+
+

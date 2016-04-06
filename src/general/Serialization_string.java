@@ -35,8 +35,8 @@ public class Serialization_string
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
-			System.exit(0);
+//TODO
+//			e.printStackTrace();
 		}
 		return object;
 	}
@@ -60,8 +60,8 @@ public class Serialization_string
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
-			System.exit(0);
+//TODO
+//			e.printStackTrace();
 		}
 		return encoded;
 	}
