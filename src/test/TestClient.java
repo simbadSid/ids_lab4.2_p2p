@@ -85,8 +85,8 @@ nodeIP = "localhost";
 			System.out.println("\t- \"" + Node.MSG_TYPE_CHORD_SET_NEXT + "\"");
 			System.out.println("\t- \"" + Node.MSG_TYPE_CHORD_IS_RESPONSIBLE_FOR_KEY + "\"");
 			System.out.println("\t- \"" + Node.MSG_TYPE_CHORD_GET_RESPONSIBLE_FOR_KEY + "\"");
-/*			System.out.println("\t- \"" + Node.MSG_TYPE_CHORD_INSERT + "\"");
-			System.out.println("\t- \"" + Node.MSG_TYPE_IS_RESPONSIBLE_FOR_KEY + "\"");
+			System.out.println("\t- \"" + Node.MSG_TYPE_CHORD_INSERT + "\"");
+/*			System.out.println("\t- \"" + Node.MSG_TYPE_IS_RESPONSIBLE_FOR_KEY + "\"");
 			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_JOIN + "\"");
 			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_GET_VALUE + "\"");
 			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_HALT + "\"");
@@ -281,7 +281,7 @@ nodeIP = "localhost";
 		{
 			key = sc.nextLine();
 		}
-		System.out.print("\t Please write the value: ");
+		System.out.println("\t Please write the value: ");
 		System.out.print("\t choice: ");
 		while(value.length() == 0)
 		{

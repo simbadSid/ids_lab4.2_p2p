@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.LinkedList;
+import java.util.Random;
+
 import communication.CommunicationChanel;
 import communication.ExceptionUnknownCommunicationChanelType;
 import communication.Logger;
@@ -25,6 +27,7 @@ public class Node
 // ---------------------------------
 	public static final int		maxNbrNodes				= 160;// TODO (int) Math.pow(2, 160);
 	public static final int		maxNbrMsgHopes			= 5;
+	public static final int		randomOrder				= 1000;
 
 	// May be executed by user out of the node
 	public static final 	String	MSG_TYPE_SIMPLE_MSG		= "simpleMsg";
@@ -36,8 +39,8 @@ public class Node
 	public static final 	String	MSG_TYPE_CHORD_IS_RESPONSIBLE_FOR_KEY = "chord_isResponsibleForKey";
 	public static final 	String	MSG_TYPE_CHORD_GET_RESPONSIBLE_FOR_KEY = "chord_getResponsibleForKey";
 	public static final 	String	MSG_TYPE_CHORD_INSERT	= "chord_insert";
-/*	public static final		String	MSG_TYPE_CHORD_JOIN		= "chord_join";
-	public static final 	String	MSG_TYPE_CHORD_GET_VALUE= "chord_getValue";
+	public static final		String	MSG_TYPE_CHORD_JOIN		= "chord_join";
+/*	public static final 	String	MSG_TYPE_CHORD_GET_VALUE= "chord_getValue";
 */
 	// May be executed by nodes only
 	private static final	String	MSG_TYPE_SET_PREVIOUS		= "setPrevious";
@@ -77,6 +80,13 @@ public class Node
 // ---------------------------------
 // Getter
 // ---------------------------------
+	public static String msgId(int nodeId)
+	{
+		Random rnd = new Random();
+
+		return "" + nodeId + Calendar.getInstance().getTime() + System.nanoTime() + rnd.nextInt(randomOrder);
+	}
+
 	public int getNodeId()
 	{
 		return this.nodeId;
@@ -117,7 +127,7 @@ public class Node
 // ---------------------------------
 // Ring overlay management
 // ---------------------------------
-	public String retransmitMsg(RequestPacket request, boolean allowDoubles)
+	public String retransmitMsg(RequestPacket request)
 	{
 System.out.println("retransmit");
 System.out.println("Local= " + this.nodeId);
@@ -125,7 +135,7 @@ System.out.println("Dest = " + request.destNodeId);
 		LinkedList<Integer> optimizedNextList;
 		request.nbrHope --;
 
-		if ((this.receivedMsgIdList.contains(request.msgId)) && (!allowDoubles))
+		if (this.receivedMsgIdList.contains(request.msgId))
 		{
 			this.logger.write(" already received\n");
 			return null;
@@ -180,8 +190,8 @@ System.out.println("\t Response from " + nextId + " : " + resObj);
 		this.logger.write("\n");
 		try
 		{
-			Method	m	= Node.class.getMethod(msgType, LinkedList.class, String.class);
-			Object	res	= m.invoke(this, argObj, msgId);
+			Method	m	= Node.class.getMethod(msgType, LinkedList.class);
+			Object	res	= m.invoke(this, argObj);
 			this.logger.write("\t-> " + res + "\"\n\n\n");
 			return Serialization_string.getSerializedStringFromObject((Serializable) res);
 		}
@@ -208,13 +218,13 @@ System.out.println("\t Response from " + nextId + " : " + resObj);
 // ------------------------------------------
 // Management methods
 // ------------------------------------------
-	public boolean simpleMsg(LinkedList<Object> arguments, String msgId)
+	public boolean simpleMsg(LinkedList<Object> arguments)
 	{
 		this.logger.write("\t\"" + arguments.get(0) + "\"\n");
 		return true;
 	}
 
-	public boolean addNext(LinkedList<Object> arguments, String msgId)
+	public boolean addNext(LinkedList<Object> arguments)
 	{
 		int		nextId = -1;
 		String	nextIP = null;
@@ -258,7 +268,7 @@ System.out.println("\t Response from " + nextId + " : " + resObj);
 		return true;
 	}
 
-	public boolean setPrevious(LinkedList<Object> arguments, String msgId)
+	public boolean setPrevious(LinkedList<Object> arguments)
 	{
 		int previousId = -1;
 
@@ -280,12 +290,12 @@ System.out.println("\t Response from " + nextId + " : " + resObj);
 	}
 
 
-	public LinkedList<Integer> getNext(LinkedList<Object> arguments, String msgId)
+	public LinkedList<Integer> getNext(LinkedList<Object> arguments)
 	{
 		return this.getNext();
 	}
 
-	public int getPrevious(LinkedList<Object> arguments, String msgId)
+	public int getPrevious(LinkedList<Object> arguments)
 	{
 		return this.getPrevious();
 	}
@@ -293,7 +303,7 @@ System.out.println("\t Response from " + nextId + " : " + resObj);
 // -----------------------------------------------
 // Chord algorithm
 // -----------------------------------------------
-	public Boolean chord_setNext(LinkedList<Object> arguments, String msgId)
+	public Boolean chord_setNext(LinkedList<Object> arguments)
 	{
 		int nextChord;
 
@@ -308,11 +318,11 @@ System.out.println("\t Response from " + nextId + " : " + resObj);
 			throw new ExceptionWrongRequestArgument();
 		}
 
-		String	newMsgId = "" + this.nodeId + Calendar.getInstance().getTime() + System.nanoTime();
+		String	newMsgId = msgId(nodeId);
 		LinkedList<Object> newArguments = new LinkedList<Object>();
 		newArguments.add(this.nodeId);
 		RequestPacket request = new RequestPacket(MSG_TYPE_CHORD_SET_PREVIOUS, nextChord, newMsgId, maxNbrMsgHopes, newArguments);
-		String res = this.retransmitMsg(request, false);
+		String res = this.retransmitMsg(request);
 		Boolean test = (Boolean) Serialization_string.getObjectFromSerializedString(res);
 		if ((test == null) || (test == false))
 			return false;
@@ -321,7 +331,7 @@ System.out.println("\t Response from " + nextId + " : " + resObj);
 		return true;
 	}
 
-	public Boolean chord_setPrevious(LinkedList<Object> arguments, String msgId)
+	public Boolean chord_setPrevious(LinkedList<Object> arguments)
 	{
 		int previousChord;
 
@@ -343,7 +353,7 @@ System.out.println("\t Response from " + nextId + " : " + resObj);
 		return true;
 	}
 
-	public Boolean chord_isResponsibleForKey(LinkedList<Object> arguments, String msgId)
+	public Boolean chord_isResponsibleForKey(LinkedList<Object> arguments)
 	{
 		String key = (String) arguments.get(0);
 
@@ -353,7 +363,7 @@ System.out.println("\t Response from " + nextId + " : " + resObj);
 		return this.internalHashTable.isResponsibleForKey(key);
 	}
 
-	public Integer chord_getResponsibleForKey(LinkedList<Object> arguments, String msgId)
+	public Integer chord_getResponsibleForKey(LinkedList<Object> arguments)
 	{
 		String key = (String) arguments.get(0);
 
@@ -365,16 +375,16 @@ System.out.println("\t Response from " + nextId + " : " + resObj);
 
 		LinkedList<Object> newArguments = new LinkedList<Object>();
 		newArguments.add(key);
+		String msgId = Node.msgId(this.nodeId);
 		RequestPacket request = new RequestPacket(MSG_TYPE_CHORD_GET_RESPONSIBLE_FOR_KEY, nextChord, msgId, maxNbrMsgHopes, newArguments);
-		String res = this.retransmitMsg(request, true);
+		String res = this.retransmitMsg(request);
 		return (Integer) Serialization_string.getObjectFromSerializedString(res);
 	}
 
-//TODO
-	public Boolean chord_insert(LinkedList<Object> arguments, String msgId)
+	public Boolean chord_insert(LinkedList<Object> arguments)
 	{
 		String key	= (String) arguments.get(0);
-		String value= (String) arguments.get(0);
+		String value= (String) arguments.get(1);
 		boolean test;
 
 		if (this.internalHashTable != null)
@@ -384,29 +394,19 @@ System.out.println("\t Response from " + nextId + " : " + resObj);
 				return true;
 		}
 
-		LinkedList<Object> newArguments = new LinkedList<Object>();
-		newArguments.add(key);
-		RequestPacket request = new RequestPacket(MSG_TYPE_CHORD_GET_RESPONSIBLE_FOR_KEY, nextChord, msgId, maxNbrMsgHopes, newArguments);
-		String res = this.retransmitMsg(request, true);
-		return (Boolean) Serialization_string.getObjectFromSerializedString(res);
-
-		
-		if (responsible < 0)
-			return false;
-
-		String	msgId = "" + this.nodeId + Calendar.getInstance().getTime() + System.nanoTime();
+		String	msgId = Node.msgId(this.nodeId);
 		RequestPacket request = new RequestPacket(MSG_TYPE_CHORD_INSERT, nextChord, msgId, maxNbrMsgHopes, arguments);
 		String res = this.retransmitMsg(request);
 		return (Boolean) Serialization_string.getObjectFromSerializedString(res);
 	}
 
 //TODO
-	public Boolean chord_join(LinkedList<Object> arguments, String msgId)
+	public Boolean chord_join(LinkedList<Object> arguments)
 	{
 		
 	}
 
-	public Object chord_getValue(LinkedList<Object> arguments, String msgId)
+	public Object chord_getValue(LinkedList<Object> arguments)
 	{
 		
 	}

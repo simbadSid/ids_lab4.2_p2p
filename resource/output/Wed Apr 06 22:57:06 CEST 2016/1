@@ -1,0 +1,67 @@
+Entry thread: starts waiting
+Entry thread: successful login to 0
+
+
+- "setPrevious
+"	->"0Wed Apr 06 22:57:06 CEST 201628351844137126170"
+"	->"0"
+
+	-> true"
+
+
+Entry thread: successful login to -2
+
+
+- "addNext
+"	->"1Wed Apr 06 22:57:06 CEST 201628352023042654671"
+"	->"4"
+"	->"localhost"
+
+	next added = 4
+	-> true"
+
+
+- "chord_setPrevious
+"	->"0Wed Apr 06 22:57:07 CEST 201628352535342648857"
+"	->"0"
+
+	-> true"
+
+
+- "chord_setNext
+"	->"1Wed Apr 06 22:57:07 CEST 201628352548281857593"
+"	->"4"
+
+- Transmit message "chord_setPrevious" to "4"
+	-> true"
+
+
+Entry thread: successful login to 1
+
+
+- "chord_getResponsibleForKey
+"	->"1Wed Apr 06 22:57:47 CEST 201628392853341922620"
+"	->"qwert"
+
+- Transmit message "chord_getResponsibleForKey" to "4"
+	-> 0"
+
+
+- "chord_insert
+"	->"1Wed Apr 06 22:58:07 CEST 20162841320757030378"
+"	->"qwerty"
+"	->"bbbbbbb"
+
+- Transmit message "chord_insert" to "4"
+	-> true"
+
+
+- "chord_insert
+"	->"1Wed Apr 06 22:58:55 CEST 20162846098785088299"
+"	->"zxxx"
+"	->"a;lsdkfjas;ldkjf"
+
+- Transmit message "chord_insert" to "4"
+	-> true"
+
+

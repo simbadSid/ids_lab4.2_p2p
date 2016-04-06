@@ -148,7 +148,7 @@ private class Executer implements Runnable
 		{
 //TODO			synchronized(lock)
 //			{
-				res = node.retransmitMsg(request, false);
+				res = node.retransmitMsg(request);
 //			}
 		}
 		catch(Exception e)
@@ -210,7 +210,7 @@ private class Executer implements Runnable
 	 */
 	public static Object sendActionRequestToNode(CommunicationChanel chanel, int inputNodeId, String msgType, int destNodeId, LinkedList<Object> arguments)
 	{
-		String	msgId = "" + inputNodeId + Calendar.getInstance().getTime() + System.nanoTime();
+		String	msgId = Node.msgId(inputNodeId);
 		RequestPacket request = new RequestPacket(msgType, destNodeId, msgId, Node.maxNbrMsgHopes, arguments);
 		String requestStr = Serialization_string.getSerializedStringFromObject(request);
 
