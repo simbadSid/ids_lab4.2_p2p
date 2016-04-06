@@ -1,0 +1,610 @@
+Entry thread: starts waiting
+Entry thread: successful login to 0
+
+
+- "setPrevious
+"	->"0Wed Apr 06 23:52:49 CEST 201631694856980151496"
+"	->"0"
+
+	-> true"
+
+
+Entry thread: successful login to -2
+
+
+- "addNext
+"	->"1Wed Apr 06 23:52:49 CEST 201631695035524005992"
+"	->"4"
+"	->"localhost"
+
+	next added = 4
+	-> true"
+
+
+- "chord_setPrevious
+"	->"0Wed Apr 06 23:52:50 CEST 201631695573917528515"
+"	->"0"
+
+	-> true"
+
+
+- "chord_setNext
+"	->"1Wed Apr 06 23:52:50 CEST 201631695584595264397"
+"	->"4"
+
+- Transmit message "chord_setPrevious" to "4"
+	-> true"
+
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:07 CEST 201631713018595422894"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:07 CEST 201631713049130357390"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:07 CEST 201631713080803707166"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:07 CEST 201631713091803793707"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:07 CEST 201631713115746287188"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:07 CEST 201631713150246239842"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:07 CEST 201631713168332225739"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:07 CEST 201631713189191183995"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:07 CEST 201631713202417555267"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:07 CEST 201631713241146587598"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713269539843697"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713287488303985"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 20163171329821292751"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713321991250583"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713345267741432"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713356102360271"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713370132724926"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713386690536894"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713397362450355"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713408616673481"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713420551271938"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713439487263724"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713451370383245"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713462746957862"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713477139081784"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713490849155282"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713510959168533"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713535255833381"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713557778587303"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713582653901689"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 20163171359323759851"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713607764354945"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713618582017840"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713629977444364"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 20163171364169818684"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713669152381238"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713690119229592"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713717226934131"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 20163171372746771254"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713741411488858"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713754333403443"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713769581183438"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713790044388664"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713807847379873"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713826209193986"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713840251929860"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713851673549320"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713887195536896"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 20163171390251258367"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713914980486739"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713925358581671"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713935503557914"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713947937174539"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713958692811683"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713984956275132"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631713995193983691"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631714008342059600"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631714021401959305"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631714036660261481"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631714046461446772"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631714057327667574"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631714086194675651"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631714101144760981"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631714117416763102"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631714130300208111"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631714143839287357"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631714157447249869"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 20163171416925317970"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631714204932196341"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:08 CEST 201631714222474525647"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714253073531126"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714263961169939"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714274051863938"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714288817043649"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714312369099645"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714322801601298"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714340916747607"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714361676343976"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714376150902204"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714386855849615"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714408578465955"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714418911052536"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714429143948142"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714448634786712"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714458046935915"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 20163171448308630215"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 2016317144943505858"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714526410736164"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714548049307475"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714558148494579"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 2016317145857747546"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714596835932732"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714612791036442"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714622992253112"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714632498152769"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714646078520818"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714656806032351"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714677344921108"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714689857144590"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 20163171470482782922"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714715299548496"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714734118033174"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714752940583389"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714764025822397"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714783144628279"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714798342997708"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714811986124798"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714823715555338"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714834084089658"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714846003485192"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714861233915873"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 2016317148730661365"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714893074818557"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714911618707907"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714927174671810"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714939345176726"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714956886503472"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714987603246144"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631714996474109722"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631715006284836680"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631715033104924250"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631715051251897965"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631715061813231958"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631715080671424613"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631715090590209358"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631715100513467654"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631715120859516127"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631715137127406542"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631715148591746942"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631715175604049874"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631715191076527382"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631715202485363490"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631715223633663864"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:09 CEST 201631715234707329869"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:10 CEST 201631715245512673927"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:10 CEST 201631715254294143260"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:10 CEST 201631715269524311472"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:10 CEST 201631715287250148522"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:10 CEST 201631715297934687517"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:10 CEST 201631715307728945848"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:10 CEST 201631715323288334477"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:10 CEST 201631715348556361808"
+"	->"qwerty"
+
+- "chord_getResponsibleForKey
+"	->"0Wed Apr 06 23:53:10 CEST 201631715362109146586"
+"	->"qwerty"
+

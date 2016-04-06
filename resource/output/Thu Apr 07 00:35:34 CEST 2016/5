@@ -1,0 +1,48 @@
+Entry thread: starts waiting
+Entry thread: successful login to -6
+
+
+Entry thread: successful login to 5
+
+
+- "chord_join
+"	->"5Thu Apr 07 00:35:50 CEST 201634275677866566632"
+"	->"0"
+
+	-> null"
+
+
+- "addNext
+"	->"5Thu Apr 07 00:36:13 CEST 201634298265561069343"
+"	->"0"
+"	->"localhost"
+
+	next added = 0
+	-> true"
+
+
+- "chord_join
+"	->"5Thu Apr 07 00:36:38 CEST 201634323722268730716"
+"	->"0"
+
+- Transmit message "chord_getResponsibleForKey" to "0"
+- Transmit message "chord_setNext" to "4"
+- "chord_setNext
+"	->"5Thu Apr 07 00:36:38 CEST 201634323835471401826"
+"	->"0"
+
+- Transmit message "chord_setPrevious" to "0"
+	-> true"
+
+
+	-> true"
+
+
+- "addNext
+"	->"5Thu Apr 07 00:37:45 CEST 201634391153809917127"
+"	->"0"
+"	->"localhost"
+
+	-> true"
+
+

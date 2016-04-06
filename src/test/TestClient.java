@@ -18,7 +18,8 @@ public class TestClient
 // Attributes
 // -------------------------------------
 //	public static String	neighborMatrixFile		= "resource/input/neighborhoodMatrix_loop.txt";
-	public static String	neighborMatrixFile		= "resource/input/neighborhoodMatrix_perso.txt";
+//	public static String	neighborMatrixFile		= "resource/input/neighborhoodMatrix_perso.txt";
+	public static String	neighborMatrixFile		= "resource/input/neighborhoodMatrix_persoForJoin.txt";
 //	public static String	neighborMatrixFile		= "resource/input/neighborhoodMatrix_topic.txt";
 //	public static String	neighborMatrixFile		= "resource/input/neighborhoodMatrix_ring.txt";
 	public static String	communicationChanelType	= CommunicationChanel.COMMUNICATION_CHANEL_RABBITMQ;
@@ -86,9 +87,8 @@ nodeIP = "localhost";
 			System.out.println("\t- \"" + Node.MSG_TYPE_CHORD_IS_RESPONSIBLE_FOR_KEY + "\"");
 			System.out.println("\t- \"" + Node.MSG_TYPE_CHORD_GET_RESPONSIBLE_FOR_KEY + "\"");
 			System.out.println("\t- \"" + Node.MSG_TYPE_CHORD_INSERT + "\"");
-/*			System.out.println("\t- \"" + Node.MSG_TYPE_IS_RESPONSIBLE_FOR_KEY + "\"");
-			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_JOIN + "\"");
-			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_GET_VALUE + "\"");
+			System.out.println("\t- \"" + Node.MSG_TYPE_CHORD_JOIN+ "\"");
+/*			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_GET_VALUE + "\"");
 			System.out.println("\t- \"" + Node.THREAD_EXTERNAL_HALT + "\"");
 */
 			System.out.println("\t- \"printOverlay\"");
@@ -149,11 +149,12 @@ nodeIP = "localhost";
 		for (int i=0; i<topology.nbrNode(); i++)
 		{
 			Node node = topology.getNode(i);
-			System.out.println("\t- Node             : " + i);
-			System.out.println("\t- Previous node    : " + node.getPrevious());
-			System.out.println("\t- Next node        : " + node.getNext());
-			System.out.println("\t- Next node(chord) : " + node.getChordNext());
-			System.out.println("\t- Data             : ");
+			System.out.println("\t- Node                  : " + i);
+			System.out.println("\t- Previous node         : " + node.getPrevious());
+			System.out.println("\t- Previous node (chord) : " + node.getChordPrevious());
+			System.out.println("\t- Next node             : " + node.getNext());
+			System.out.println("\t- Next node(chord)      : " + node.getChordNext());
+			System.out.println("\t- Data                  : ");
 			LinkedList<String> keySet = node.getKeySet();
 			if (keySet != null)
 			{
@@ -295,85 +296,15 @@ nodeIP = "localhost";
 		return res;
 	}
 
-	public Object join(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
+	public Object chord_join(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
 	{
-// TODO
-		return null;
-/*
-		int		nextNodeId = parseNodeId(sc, "reach next");
-		String	nextNodeIP = parseNodeIP(sc, "reach next", null);
-		CommunicationChanel newChanel = connectToNode(sc, nextNodeIP, nextNodeId);
+		int	nodeInit = parseNodeId(sc, "init the process (chord)");
+		LinkedList<Object> arguments = new LinkedList<Object>();
+		arguments.add(nodeInit);
+		Object res = EntryThread.sendActionRequestToNode(chanel, nodeId, Node.MSG_TYPE_CHORD_JOIN, nodeId, arguments);
+		return res;
 
-		do
-		{
-			String res = this.isResponsibleForKey(newChanel, sc, nodeIP, nextNodeId, ""+nodeId);
-			if ((res != null) && (Boolean.parseBoolean(res)))
-			{
-				// set previous of .... to -1
-				topology.getNode(nextNodeId).setPrevious(-1)
-				// get previous previous;
-				// Set next of previous to me
-				
-			}
-			String str = this.getNext(newChanel, sc, nodeIP, newNodeId, null);
-			if (str == null) break;
-			newNodeId = Integer.parseInt(str);
-			newChanel = connectToNode(sc, nodeIP, newNodeId);
-		}while(newNodeId != nodeId);
-		return null;
-*/
 	}
-/*
-
-	public String getValue(CommunicationChanel chanel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
-	{
-		String key;
-
-		if (keyTrash != null)
-			key = keyTrash;
-
-		else
-		{
-			key = "";
-
-			System.out.print("\t\tPlease write the key: ");
-			while(key.length() == 0)
-			{
-				key = sc.nextLine();
-			}
-		}
-
-		CommunicationChanel newChanel = chanel;
-		int newNodeId = nodeId;
-		do
-		{
-			String res = this.isResponsibleForKey(newChanel, sc, nodeIP, newNodeId, key);
-			if ((res != null) && (Boolean.parseBoolean(res)))
-			{
-				boolean test = true;
-				test &= newChanel.writeLine(Node.THREAD_EXTERNAL_GET_VALUE);
-				test &= newChanel.writeLine(key);
-				if (!test)
-					break;
-				return newChanel.readLine();
-			}
-			String str = this.getNext(newChanel, sc, nodeIP, newNodeId, null);
-			if (str == null) break;
-			newNodeId = Integer.parseInt(str);
-			if (newNodeId <= 0)
-				return "(null)";
-			newChanel = connectToNode(sc, nodeIP, newNodeId);
-		}while(newNodeId != nodeId);
-		return null;
-	}
-
-	public boolean halt(CommunicationChanel channel, Scanner sc, String nodeIP, int nodeId, String keyTrash)
-	{
-		sc.close();
-		System.exit(0);
-		return true;
-	}
-*/
 
 // -------------------------------------
 // Private methods

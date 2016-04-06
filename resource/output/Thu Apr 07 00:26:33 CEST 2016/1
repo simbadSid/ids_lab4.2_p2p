@@ -1,0 +1,38 @@
+Entry thread: starts waiting
+Entry thread: successful login to 0
+
+
+- "setPrevious
+"	->"0Thu Apr 07 00:26:33 CEST 201633718980460426298"
+"	->"0"
+
+	-> true"
+
+
+Entry thread: successful login to -2
+
+
+- "addNext
+"	->"1Thu Apr 07 00:26:33 CEST 201633719158617002872"
+"	->"4"
+"	->"localhost"
+
+	next added = 4
+	-> true"
+
+
+- "chord_setPrevious
+"	->"0Thu Apr 07 00:26:34 CEST 20163371968697655111"
+"	->"0"
+
+	-> true"
+
+
+- "chord_setNext
+"	->"1Thu Apr 07 00:26:34 CEST 201633719704686495869"
+"	->"4"
+
+- Transmit message "chord_setPrevious" to "4"
+	-> true"
+
+

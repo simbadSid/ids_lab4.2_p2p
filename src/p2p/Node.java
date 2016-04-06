@@ -107,6 +107,11 @@ public class Node
 		return this.nextChord;
 	}
 
+	public int getChordPrevious()
+	{
+		return this.previousChord;
+	}
+
 	public LinkedList<String> getKeySet()
 	{
 		if (this.internalHashTable == null)
@@ -254,7 +259,6 @@ System.out.println("\t Response from " + nextId + " : " + resObj);
 
 		LinkedList<Object> newArguments = new LinkedList<Object>();
 		newArguments.add(this.nodeId);
-//TODO change by a call to this.transmit
 		Boolean res = (Boolean) EntryThread.sendActionRequestToNode(chanel, nodeId, MSG_TYPE_SET_PREVIOUS, nextId, newArguments);
 		if ((res == null) || (res == false))
 		{
@@ -346,9 +350,10 @@ System.out.println("\t Response from " + nextId + " : " + resObj);
 			throw new ExceptionWrongRequestArgument();
 		}
 
-		//TODO change this by an update of the existing internal hash table
-		if (previousChord != this.previousChord)
-			this.internalHashTable	= new NodeInternalHashTable(previousId, nodeId);
+//TODO change this by an update of the existing internal hash table
+		this.previousChord = previousChord;
+		if ((previousChord != this.previousChord) || (this.internalHashTable == null))
+			this.internalHashTable	= new NodeInternalHashTable(previousChord, nodeId);
 
 		return true;
 	}
@@ -363,12 +368,22 @@ System.out.println("\t Response from " + nextId + " : " + resObj);
 		return this.internalHashTable.isResponsibleForKey(key);
 	}
 
-	public Integer chord_getResponsibleForKey(LinkedList<Object> arguments)
+	/**
+	 * 
+	 * @return the list of the current chord node and the previous chord node
+	 */
+	@SuppressWarnings("unchecked")
+	public LinkedList<Integer> chord_getResponsibleForKey(LinkedList<Object> arguments)
 	{
 		String key = (String) arguments.get(0);
 
 		if ((this.internalHashTable != null) && (this.internalHashTable.isResponsibleForKey(key)))
-			return this.nodeId;
+		{
+			LinkedList<Integer> res = new LinkedList<Integer>();
+			res.add(this.nodeId);
+			res.add(this.previousChord);
+			return res;
+		}
 
 		if (this.nextChord < 0)
 			return null;
@@ -378,7 +393,7 @@ System.out.println("\t Response from " + nextId + " : " + resObj);
 		String msgId = Node.msgId(this.nodeId);
 		RequestPacket request = new RequestPacket(MSG_TYPE_CHORD_GET_RESPONSIBLE_FOR_KEY, nextChord, msgId, maxNbrMsgHopes, newArguments);
 		String res = this.retransmitMsg(request);
-		return (Integer) Serialization_string.getObjectFromSerializedString(res);
+		return (LinkedList<Integer>) Serialization_string.getObjectFromSerializedString(res);
 	}
 
 	public Boolean chord_insert(LinkedList<Object> arguments)
@@ -400,14 +415,47 @@ System.out.println("\t Response from " + nextId + " : " + resObj);
 		return (Boolean) Serialization_string.getObjectFromSerializedString(res);
 	}
 
-//TODO
+	@SuppressWarnings("unchecked")
 	public Boolean chord_join(LinkedList<Object> arguments)
 	{
-		
+		int					nodeInit	= (int) arguments.get(0);
+		String				msgId		= Node.msgId(this.nodeId);
+		LinkedList<Object>	newArguments= new LinkedList<Object>();
+		RequestPacket	request;
+
+		// Find the node and the previous where to insert my self
+		newArguments.add("" + this.nodeId);
+		request = new RequestPacket(MSG_TYPE_CHORD_GET_RESPONSIBLE_FOR_KEY, nodeInit, msgId, maxNbrMsgHopes, newArguments);
+		String res = this.retransmitMsg(request);
+		LinkedList<Integer> resObj = (LinkedList<Integer>)Serialization_string.getObjectFromSerializedString(res);
+		if (resObj == null)
+			return null;
+
+		int nextNode		= resObj.get(0);
+		int previousNode	= resObj.get(1);
+
+		// Set the next of the previous
+		newArguments.clear();
+		newArguments.add(this.nodeId);
+		msgId	= Node.msgId(this.nodeId);
+		request	= new RequestPacket(MSG_TYPE_CHORD_SET_NEXT, previousNode, msgId, maxNbrMsgHopes, newArguments);
+		res		= this.retransmitMsg(request);
+		Boolean resBoolean = (Boolean) Serialization_string.getObjectFromSerializedString(res);
+		if (resBoolean == null)
+			return null;
+
+		// Set my next
+		newArguments.clear();
+		newArguments.add(nextNode);
+		msgId	= Node.msgId(this.nodeId);
+		request	= new RequestPacket(MSG_TYPE_CHORD_SET_NEXT, this.nodeId, msgId, maxNbrMsgHopes, newArguments);
+		res		= this.retransmitMsg(request);
+		return (Boolean) Serialization_string.getObjectFromSerializedString(res);
 	}
 
+//TODO
 	public Object chord_getValue(LinkedList<Object> arguments)
 	{
-		
+return null;		
 	}
 }

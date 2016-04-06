@@ -2,9 +2,7 @@ package p2p;
 
 import general.Serialization_string;
 import general.SynchronizedList;
-import java.util.Calendar;
 import java.util.LinkedList;
-
 import communication.CommunicationChanel;
 import communication.Logger;
 

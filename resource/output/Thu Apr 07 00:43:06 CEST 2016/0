@@ -1,0 +1,89 @@
+Entry thread: starts waiting
+Entry thread: successful login to -1
+
+
+- "addNext
+"	->"0Thu Apr 07 00:43:07 CEST 201634712448601030452"
+"	->"1"
+"	->"localhost"
+
+	next added = 1
+	-> true"
+
+
+- "addNext
+"	->"0Thu Apr 07 00:43:07 CEST 201634712601008129483"
+"	->"2"
+"	->"localhost"
+
+	next added = 2
+	-> true"
+
+
+Entry thread: successful login to 4
+
+
+- "setPrevious
+"	->"4Thu Apr 07 00:43:07 CEST 201634713214462662461"
+"	->"4"
+
+	-> true"
+
+
+Entry thread: successful login to 5
+
+
+- "setPrevious
+"	->"5Thu Apr 07 00:43:08 CEST 201634713484347028363"
+"	->"5"
+
+	-> true"
+
+
+- "chord_setNext
+"	->"0Thu Apr 07 00:43:08 CEST 201634713495996733344"
+"	->"1"
+
+- Transmit message "chord_setPrevious" to "1"
+	-> true"
+
+
+- "chord_setPrevious
+"	->"4Thu Apr 07 00:43:08 CEST 20163471356285840057"
+"	->"4"
+
+	-> true"
+
+
+- "chord_getResponsibleForKey
+"	->"5Thu Apr 07 00:43:38 CEST 201634743458047642156"
+"	->"5"
+
+	-> [0, 4]"
+
+
+- Transmit message "chord_setNext" to "4"
+- "chord_setPrevious
+"	->"5Thu Apr 07 00:43:38 CEST 20163474351493538397"
+"	->"5"
+
+	-> true"
+
+
+- "chord_insert
+"	->"5Thu Apr 07 00:44:30 CEST 201634796089119112803"
+"	->"dlskfj"
+"	->"laksdjfaklsdjf"
+
+	-> true"
+
+
+- "chord_insert
+"	->"5Thu Apr 07 00:44:50 CEST 201634815396922765498"
+"	->"zxxxx"
+"	->"dslkfjalskdjf"
+
+- Transmit message "chord_insert" to "1"
+	-> true"
+
+
