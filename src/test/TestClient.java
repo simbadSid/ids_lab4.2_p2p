@@ -18,8 +18,8 @@ public class TestClient
 // Attributes
 // -------------------------------------
 //	public static String	neighborMatrixFile		= "resource/input/neighborhoodMatrix_loop.txt";
-//	public static String	neighborMatrixFile		= "resource/input/neighborhoodMatrix_perso.txt";
-	public static String	neighborMatrixFile		= "resource/input/neighborhoodMatrix_persoForJoin.txt";
+	public static String	neighborMatrixFile		= "resource/input/neighborhoodMatrix_perso.txt";
+//	public static String	neighborMatrixFile		= "resource/input/neighborhoodMatrix_persoForJoin.txt";
 //	public static String	neighborMatrixFile		= "resource/input/neighborhoodMatrix_topic.txt";
 //	public static String	neighborMatrixFile		= "resource/input/neighborhoodMatrix_ring.txt";
 	public static String	communicationChanelType	= CommunicationChanel.COMMUNICATION_CHANEL_RABBITMQ;

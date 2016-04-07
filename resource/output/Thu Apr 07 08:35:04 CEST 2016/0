@@ -1,0 +1,18 @@
+Entry thread: starts waiting
+Entry thread: successful login to -1
+
+
+- "addNext
+"	->"0Thu Apr 07 08:35:04 CEST 201677875766854226"
+"	->"1"
+"	->"localhost"
+
+	next added = 1
+	-> true"
+
+
+Entry thread: successful login to 0
+
+
+- Transmit message "simpleMsg" to "3"
+- Transmit message "simpleMsg" to "2"

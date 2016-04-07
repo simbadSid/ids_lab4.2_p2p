@@ -16,14 +16,11 @@ public class EntryThread implements Runnable
 // -----------------------------------
 // Attributes
 // -----------------------------------
-	private static final int		initialEntryPort		= 2222;
-
+	private static final int	initialEntryPort			= 2222;
 	private static final String	chanelName_login_input		= "EntryThreadChanel_input_";
 	private static final String	chanelName_login_output		= "EntryThreadChanel_output_";
-
 	private static final String	chanelName_executer_input	= "EntryThreadChanel_executer_input_";
 	private static final String	chanelName_executer_output	= "EntryThreadChanel_executer_output_";
-
 	private static final String	logingAnswer_accept			= "connectionAccepted";
 
 	private Node						node;
@@ -31,7 +28,7 @@ public class EntryThread implements Runnable
 	private int							nodePort;
 	private Logger						logger;
 	private String						communicationChanelType;
-//TODO	private Object						lock = new Object();
+	//TODO	private Object				lock = new Object();
 	private SynchronizedList<Integer>	connectedNodes;
 
 // -----------------------------------
